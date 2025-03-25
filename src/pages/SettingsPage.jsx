@@ -12,7 +12,7 @@ const SettingsPage = () => {
 
   return (
     <div>
-      <h1 className="page-title">App Settings</h1>
+      <h1 className="page-title">Settings</h1>
       
       <div className="card">
         <h2>Payment Settings</h2>
@@ -27,13 +27,8 @@ const SettingsPage = () => {
               />
               Enable Dual Pricing
             </label>
-            <p style={{ 
-              fontSize: '0.9rem', 
-              color: 'var(--secondary-color)', 
-              marginTop: '5px',
-              marginLeft: '25px'
-            }}>
-              When enabled, customers can choose to pay the surcharge or use ACH.
+            <p style={{ fontSize: '0.9rem', color: 'var(--secondary-color)', marginTop: '5px' }}>
+              When enabled, customers will have the option to pay the processing fee.
             </p>
           </div>
           
@@ -47,52 +42,55 @@ const SettingsPage = () => {
                 className="form-control"
                 style={{ maxWidth: '100px' }}
               />
-              <p style={{ 
-                fontSize: '0.9rem', 
-                color: 'var(--secondary-color)', 
-                marginTop: '5px' 
+            </div>
+          )}
+          
+          <div className="form-group">
+            <button onClick={handleSave} className="btn btn-primary">Save Settings</button>
+            {saveStatus && (
+              <div style={{ 
+                marginTop: '10px', 
+                padding: '10px', 
+                backgroundColor: 'rgba(40, 167, 69, 0.1)', 
+                color: 'var(--success-color)',
+                borderRadius: '4px'
               }}>
-                This percentage will be added to card payments.
-              </p>
-            </div>
-          )}
-          
-          <button onClick={handleSave} className="btn btn-primary">Save Settings</button>
-          
-          {saveStatus && (
-            <div style={{ 
-              marginTop: '15px', 
-              padding: '10px', 
-              backgroundColor: 'rgba(40, 167, 69, 0.1)', 
-              color: 'var(--success-color)',
-              borderRadius: '4px'
-            }}>
-              {saveStatus}
-            </div>
-          )}
+                {saveStatus}
+              </div>
+            )}
+          </div>
         </div>
       </div>
       
       <div className="card mt-4">
-        <h2>Account Information</h2>
+        <h2>Notification Preferences</h2>
         <div className="mt-4">
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '30px' }}>
-            <div>
-              <p style={{ color: 'var(--secondary-color)', fontSize: '0.9rem', marginBottom: '5px' }}>Email</p>
-              <p style={{ fontWeight: 'bold' }}>user@example.com</p>
-            </div>
-            <div>
-              <p style={{ color: 'var(--secondary-color)', fontSize: '0.9rem', marginBottom: '5px' }}>Account Type</p>
-              <p style={{ fontWeight: 'bold' }}>Premium</p>
-            </div>
-            <div>
-              <p style={{ color: 'var(--secondary-color)', fontSize: '0.9rem', marginBottom: '5px' }}>Member Since</p>
-              <p style={{ fontWeight: 'bold' }}>January 15, 2023</p>
-            </div>
+          <div className="form-group">
+            <label style={{ display: 'flex', alignItems: 'center' }}>
+              <input 
+                type="checkbox" 
+                defaultChecked={true} 
+                style={{ marginRight: '10px' }}
+              />
+              Email Notifications
+            </label>
+            <p style={{ fontSize: '0.9rem', color: 'var(--secondary-color)', marginTop: '5px' }}>
+              Receive email notifications for payment events.
+            </p>
           </div>
-          <div style={{ marginTop: '20px' }}>
-            <button className="btn btn-secondary">Change Password</button>
-            <button className="btn btn-danger" style={{ marginLeft: '10px' }}>Delete Account</button>
+          
+          <div className="form-group">
+            <label style={{ display: 'flex', alignItems: 'center' }}>
+              <input 
+                type="checkbox" 
+                defaultChecked={true} 
+                style={{ marginRight: '10px' }}
+              />
+              SMS Notifications
+            </label>
+            <p style={{ fontSize: '0.9rem', color: 'var(--secondary-color)', marginTop: '5px' }}>
+              Receive text message notifications for payment events.
+            </p>
           </div>
         </div>
       </div>

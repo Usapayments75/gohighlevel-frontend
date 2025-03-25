@@ -84,63 +84,6 @@ const StatusPage = () => {
           </div>
         </div>
       )}
-      
-      <div className="card mt-4">
-        <h2>System Status</h2>
-        <div className="mt-4">
-          <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
-            <div style={{ 
-              width: '12px', 
-              height: '12px', 
-              borderRadius: '50%', 
-              backgroundColor: 'var(--success-color)', 
-              marginRight: '10px' 
-            }}></div>
-            <span>API Services: Operational</span>
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
-            <div style={{ 
-              width: '12px', 
-              height: '12px', 
-              borderRadius: '50%', 
-              backgroundColor: 'var(--success-color)', 
-              marginRight: '10px' 
-            }}></div>
-            <span>Database: Operational</span>
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <div style={{ 
-              width: '12px', 
-              height: '12px', 
-              borderRadius: '50%', 
-              backgroundColor: 'var(--success-color)', 
-              marginRight: '10px' 
-            }}></div>
-            <span>Authentication Services: Operational</span>
-          </div>
-        </div>
-      </div>
-      
-      <div className="card mt-4">
-        <h2>Recent Activity</h2>
-        <div className="mt-4">
-          <div style={{ marginBottom: '15px', padding: '10px', borderLeft: '3px solid var(--primary-color)' }}>
-            <p style={{ fontWeight: 'bold' }}>System Update</p>
-            <p>Maintenance completed successfully</p>
-            <p style={{ fontSize: '0.9rem', color: 'var(--secondary-color)' }}>2 hours ago</p>
-          </div>
-          <div style={{ marginBottom: '15px', padding: '10px', borderLeft: '3px solid var(--warning-color)' }}>
-            <p style={{ fontWeight: 'bold' }}>Performance Optimization</p>
-            <p>Database queries optimized for better performance</p>
-            <p style={{ fontSize: '0.9rem', color: 'var(--secondary-color)' }}>Yesterday</p>
-          </div>
-          <div style={{ padding: '10px', borderLeft: '3px solid var(--info-color)' }}>
-            <p style={{ fontWeight: 'bold' }}>New Feature</p>
-            <p>Added enhanced reporting capabilities</p>
-            <p style={{ fontSize: '0.9rem', color: 'var(--secondary-color)' }}>3 days ago</p>
-          </div>
-        </div>
-      </div>
     </div>
   );
 };

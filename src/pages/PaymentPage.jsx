@@ -83,64 +83,6 @@ const PaymentPage = () => {
       ) : (
         <AchPaymentForm />
       )}
-      
-      <div className="card mt-4">
-        <h2>Saved Payment Methods</h2>
-        <div className="mt-4">
-          <div style={{ 
-            display: 'flex', 
-            alignItems: 'center', 
-            marginBottom: '15px',
-            padding: '15px',
-            border: '1px solid var(--border-color)',
-            borderRadius: '8px'
-          }}>
-            <div style={{ 
-              width: '50px', 
-              height: '30px', 
-              backgroundColor: '#1a1f71', 
-              borderRadius: '4px', 
-              marginRight: '15px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              color: 'white',
-              fontWeight: 'bold'
-            }}>VISA</div>
-            <div style={{ flex: '1' }}>
-              <p>Visa ending in 4242</p>
-              <p style={{ fontSize: '0.9rem', color: 'var(--secondary-color)' }}>Expires 12/25</p>
-            </div>
-            <button className="btn btn-secondary" style={{ padding: '5px 10px', fontSize: '0.9rem' }}>Use</button>
-          </div>
-          
-          <div style={{ 
-            display: 'flex', 
-            alignItems: 'center',
-            padding: '15px',
-            border: '1px solid var(--border-color)',
-            borderRadius: '8px'
-          }}>
-            <div style={{ 
-              width: '50px', 
-              height: '30px', 
-              backgroundColor: '#ff5f00', 
-              borderRadius: '4px', 
-              marginRight: '15px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              color: 'white',
-              fontWeight: 'bold'
-            }}>MC</div>
-            <div style={{ flex: '1' }}>
-              <p>Mastercard ending in 5555</p>
-              <p style={{ fontSize: '0.9rem', color: 'var(--secondary-color)' }}>Expires 10/24</p>
-            </div>
-            <button className="btn btn-secondary" style={{ padding: '5px 10px', fontSize: '0.9rem' }}>Use</button>
-          </div>
-        </div>
-      </div>
     </div>
   );
 };
