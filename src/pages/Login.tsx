@@ -17,7 +17,7 @@ export default function Login() {
       const response = await authApi.login(formData);
       localStorage.setItem('token', response.token);
       toast.success('Login successful!');
-      navigate('/dashboard');
+      navigate('/');
     } catch (error: any) {
       toast.error(error.response?.data?.message || 'Login failed');
     }

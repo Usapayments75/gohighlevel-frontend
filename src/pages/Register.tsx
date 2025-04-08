@@ -23,7 +23,7 @@ export default function Register() {
       const response = await authApi.register(formData);
       localStorage.setItem('token', response.token);
       toast.success('Registration successful!');
-      navigate('/dashboard');
+      navigate('/');
     } catch (error: any) {
       toast.error(error.response?.data?.message || 'Registration failed');
     }
