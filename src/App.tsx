@@ -13,6 +13,7 @@ import BankTransfer from './pages/BankTransfer';
 import Invoice from './pages/Invoice';
 import Documentation from './pages/Documentation';
 import DashboardLayout from './components/DashboardLayout';
+import OAuthCallback from './pages/OAuthCallback';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/documentation" element={<Documentation />} />
+          <Route path="/oauth/callback" element={<OAuthCallback />} />
           
           {/* Protected Routes */}
           <Route path="/" element={<DashboardLayout />}>
