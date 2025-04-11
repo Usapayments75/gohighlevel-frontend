@@ -36,7 +36,7 @@ export default function PublicPayment() {
     const fetchInvoice = async () => {
       try {
         const response = await axios.get<InvoiceResponse>(
-          `https://api-vendara.usapayments.com/api/ghl/public/invoice/${invoiceId}`
+          `https://api-vendara.usapayments.com/api/v1/ghl/public/invoice/${invoiceId}`
         );
         setInvoice(response.data.data.invoice);
       } catch (err: any) {
