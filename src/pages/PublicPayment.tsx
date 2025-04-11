@@ -28,42 +28,35 @@ interface InvoiceResponse {
 export default function PublicPayment() {
   const [messageStatus, setMessageStatus] = useState("Message not sent");
   const [parentUrl, setParentUrl] = useState<string | null>(null);
+  const [parentInvoiceId, setParentInvoiceId] = useState<string | null>(null);
   
-  // Get parent URL and send message
+  // Listen for messages from parent window
   useEffect(() => {
-    try {
-      // Try to get parent URL
-      if (window.parent !== window) {
-        try {
-          const url = window.parent.location.href;
-          setParentUrl(url);
-          console.log("Parent URL:", url);
-          
-          // Extract invoice ID from parent URL if needed
-          const urlParts = url.split('/invoice/');
-          if (urlParts.length > 1) {
-            console.log("Invoice ID from parent:", urlParts[1]);
-          }
-        } catch (e) {
-          console.log("Cannot access parent URL due to security restrictions");
-          setParentUrl("Access denied - cross-origin restriction");
-        }
-      } else {
-        setParentUrl("Not in an iframe");
-      }
+    const handleMessage = (event: MessageEvent) => {
+      console.log("Received message from parent:", event.data);
       
-      // Send message to parent
-      window.parent.postMessage(
-        {
-          type: 'LOADED',
-          url: window.location.href
-        },
-        '*'
-      );
-      setMessageStatus("Message sent to parent window");
-    } catch (err) {
-      setMessageStatus(`Error sending message: ${err}`);
-    }
+      // Check if the message contains the parent URL or invoice ID
+      if (event.data && typeof event.data === 'object') {
+        if (event.data.parentUrl) {
+          setParentUrl(event.data.parentUrl);
+        }
+        if (event.data.invoiceId) {
+          setParentInvoiceId(event.data.invoiceId);
+        }
+      }
+    };
+    
+    // Add event listener for messages
+    window.addEventListener('message', handleMessage);
+    
+    // Send ready message to parent
+    window.parent.postMessage({ type: 'IFRAME_READY' }, '*');
+    setMessageStatus("Ready message sent to parent");
+    
+    // Clean up
+    return () => {
+      window.removeEventListener('message', handleMessage);
+    };
   }, []);
   
   console.log('PublicPayment', useParams());
