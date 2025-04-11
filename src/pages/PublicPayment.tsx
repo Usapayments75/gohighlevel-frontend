@@ -26,34 +26,39 @@ interface InvoiceResponse {
 }
 
 export default function PublicPayment() {
-  const fullURL = window.location.href;
-  const invoiceId = fullURL.split('/').pop();
-  alert(invoiceId);
+ 
   const [invoice, setInvoice] = useState<Invoice | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<'card' | 'bank'>('card');
 
   useEffect(() => {
-    const fetchInvoice = async () => {
-      try {
-        const response = await axios.get<InvoiceResponse>(
-          `https://api-vendara.usapayments.com/api/v1/ghl/public/invoice/${invoiceId}`
-        );
-        setInvoice(response.data.data.invoice);
-      } catch (err: any) {
-        const message = err.response?.data?.message || 'Failed to fetch invoice details';
-        setError(message);
-        toast.error(message);
-      } finally {
-        setLoading(false);
+    const handleLoad = () => {
+      const fullURL = window.location.href;
+      const invoiceId = fullURL.split('/').pop();
+      const fetchInvoice = async () => {
+        try {
+          const response = await axios.get<InvoiceResponse>(
+            `https://api-vendara.usapayments.com/api/v1/ghl/public/invoice/${invoiceId}`
+          );
+          setInvoice(response.data.data.invoice);
+        } catch (err: any) {
+          const message = err.response?.data?.message || 'Failed to fetch invoice details';
+          setError(message);
+          toast.error(message);
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      if (invoiceId) {
+        fetchInvoice();
       }
     };
 
-    if (invoiceId) {
-      fetchInvoice();
-    }
-  }, [invoiceId]);
+    window.addEventListener('load', handleLoad);
+    return () => window.removeEventListener('load', handleLoad);
+  }, []);
 
   if (loading) {
     return (
