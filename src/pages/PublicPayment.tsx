@@ -52,11 +52,14 @@ export default function PublicPayment() {
       fetchInvoice();
     }
   }, [invoiceId]);
+  var url = (window.location != window.parent.location)
+  ? document.referrer
+  : document.location.href;
 
   if (loading) {
     return (
       <div>
-        {document.location.toString()}
+        {url}
       </div>
       // <div className="min-h-screen bg-gray-50 flex items-center justify-center">
       //   <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
