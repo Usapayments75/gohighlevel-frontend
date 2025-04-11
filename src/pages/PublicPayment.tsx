@@ -27,10 +27,32 @@ interface InvoiceResponse {
 
 export default function PublicPayment() {
   const [messageStatus, setMessageStatus] = useState("Message not sent");
+  const [parentUrl, setParentUrl] = useState<string | null>(null);
   
-  // Send message to parent window
+  // Get parent URL and send message
   useEffect(() => {
     try {
+      // Try to get parent URL
+      if (window.parent !== window) {
+        try {
+          const url = window.parent.location.href;
+          setParentUrl(url);
+          console.log("Parent URL:", url);
+          
+          // Extract invoice ID from parent URL if needed
+          const urlParts = url.split('/invoice/');
+          if (urlParts.length > 1) {
+            console.log("Invoice ID from parent:", urlParts[1]);
+          }
+        } catch (e) {
+          console.log("Cannot access parent URL due to security restrictions");
+          setParentUrl("Access denied - cross-origin restriction");
+        }
+      } else {
+        setParentUrl("Not in an iframe");
+      }
+      
+      // Send message to parent
       window.parent.postMessage(
         {
           type: 'LOADED',
@@ -78,6 +100,7 @@ export default function PublicPayment() {
         <div className="text-center">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600 mx-auto mb-4"></div>
           <p className="text-gray-600">{messageStatus}</p>
+          {parentUrl && <p className="text-gray-500 mt-2">Parent URL: {parentUrl}</p>}
         </div>
       </div>
     );
@@ -90,6 +113,7 @@ export default function PublicPayment() {
           <h2 className="text-2xl font-bold text-gray-900 mb-2">Error</h2>
           <p className="text-gray-600">{error || 'Invoice not found'}</p>
           <p className="text-gray-500 mt-2">{messageStatus}</p>
+          {parentUrl && <p className="text-gray-500 mt-2">Parent URL: {parentUrl}</p>}
         </div>
       </div>
     );
