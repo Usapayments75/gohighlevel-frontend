@@ -14,6 +14,7 @@ import Invoice from './pages/Invoice';
 import Documentation from './pages/Documentation';
 import DashboardLayout from './components/DashboardLayout';
 import OAuthCallback from './pages/OAuthCallback';
+import PublicPayment from './pages/PublicPayment';
 
 function App() {
   return (
@@ -27,6 +28,9 @@ function App() {
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/documentation" element={<Documentation />} />
           <Route path="/oauth/callback" element={<OAuthCallback />} />
+          
+          {/* Public Payment Route */}
+          <Route path="/pay/:invoiceId" element={<PublicPayment />} />
           
           {/* Protected Routes */}
           <Route path="/" element={<DashboardLayout />}>
