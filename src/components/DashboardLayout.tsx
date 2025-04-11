@@ -1,6 +1,6 @@
 import React from 'react';
 import { Outlet, useNavigate, Link } from 'react-router-dom';
-import { LogOut, FileText } from 'lucide-react';
+import { LogOut, FileText, Settings } from 'lucide-react';
 
 export default function DashboardLayout() {
   const navigate = useNavigate();
@@ -31,7 +31,14 @@ export default function DashboardLayout() {
                 Documentation
               </Link>
             </div>
-            <div className="flex items-center">
+            <div className="flex items-center space-x-4">
+              <Link
+                to="/settings"
+                className="inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-gray-500 hover:text-gray-700 focus:outline-none"
+              >
+                <Settings className="h-4 w-4 mr-2" />
+                Settings
+              </Link>
               <button
                 onClick={handleLogout}
                 className="inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-gray-500 hover:text-gray-700 focus:outline-none"
