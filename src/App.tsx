@@ -30,7 +30,7 @@ function App() {
           <Route path="/oauth/callback" element={<OAuthCallback />} />
           
           {/* Public Payment Route */}
-          <Route path="/pay/:invoiceId" element={<PublicPayment />} />
+          <Route path="/pay" element={<PublicPayment />} />
           
           {/* Protected Routes */}
           <Route path="/" element={<DashboardLayout />}>
