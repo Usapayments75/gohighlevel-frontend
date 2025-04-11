@@ -28,6 +28,7 @@ interface InvoiceResponse {
 export default function PublicPayment() {
   const fullURL = window.location.href;
   const invoiceId = fullURL.split('/').pop();
+  alert(invoiceId);
   const [invoice, setInvoice] = useState<Invoice | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
