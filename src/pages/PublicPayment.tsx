@@ -33,30 +33,40 @@ export default function PublicPayment() {
   const [activeTab, setActiveTab] = useState<'card' | 'bank'>('card');
 
   useEffect(() => {
-    const fetchInvoice = async (invoiceId: string) => {
-      try {
-        const response = await axios.get<InvoiceResponse>(
-          `https://api-vendara.usapayments.com/api/v1/ghl/public/invoice/${invoiceId}`
-        );
-        setInvoice(response.data.data.invoice);
-      } catch (err: any) {
-        const message = err.response?.data?.message || 'Failed to fetch invoice details';
-        setError(message);
-        toast.error(message);
-      } finally {
+    const handleLoad = () => {
+      // Extract invoice ID from the URL path
+      const pathParts = window.location.pathname.split('/');
+      const invoiceId = pathParts[pathParts.length - 1];
+      
+      const fetchInvoice = async (id: string) => {
+        try {
+          const response = await axios.get<InvoiceResponse>(
+            `https://api-vendara.usapayments.com/api/v1/ghl/public/invoice/${id}`
+          );
+          setInvoice(response.data.data.invoice);
+        } catch (err: any) {
+          const message = err.response?.data?.message || 'Failed to fetch invoice details';
+          setError(message);
+          toast.error(message);
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      if (invoiceId) {
+        fetchInvoice(invoiceId);
+      } else {
+        setError('Invoice ID not found in URL'+window.location.pathname);
         setLoading(false);
       }
     };
 
-    // Extract invoice ID from the URL path
-    const pathParts = window.location.pathname.split('/');
-    const invoiceId = pathParts[pathParts.length - 1];
-    
-    if (invoiceId) {
-      fetchInvoice(invoiceId);
+    // Run once on mount
+    if (document.readyState === 'complete') {
+      handleLoad();
     } else {
-      setError('Invoice ID not found in URL');
-      setLoading(false);
+      window.addEventListener('load', handleLoad);
+      return () => window.removeEventListener('load', handleLoad);
     }
   }, []);
 
