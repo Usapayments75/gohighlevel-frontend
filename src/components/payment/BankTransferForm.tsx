@@ -26,6 +26,7 @@ export default function BankTransferForm({ invoice, navigate }: BankTransferForm
       const response = await paymentApi.processAchPayment({
         amount: parseFloat(invoice.amountDue),
         currency: invoice.currency,
+        invoiceId: invoice.invoiceId,
         bankAccount: {
           routingNumber: formData.routingNumber,
           accountNumber: formData.accountNumber,
@@ -51,6 +52,8 @@ export default function BankTransferForm({ invoice, navigate }: BankTransferForm
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
+      <input type="hidden" name="invoiceId" value={invoice.invoiceId} />
+      
       <div>
         <label className="block text-sm font-medium text-gray-700">
           Amount

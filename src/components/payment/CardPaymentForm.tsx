@@ -26,6 +26,7 @@ export default function CardPaymentForm({ invoice, navigate }: CardPaymentFormPr
       const response = await paymentApi.processCardPayment({
         amount: parseFloat(invoice.totalWithSurcharge),
         currency: invoice.currency,
+        invoiceId: invoice.invoiceId,
         card: {
           cardNumber: formData.cardNumber.replace(/\s/g, ''),
           cardHolderName: formData.cardHolderName,
@@ -80,6 +81,8 @@ export default function CardPaymentForm({ invoice, navigate }: CardPaymentFormPr
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
+      <input type="hidden" name="invoiceId" value={invoice.invoiceId} />
+      
       <div>
         <label className="block text-sm font-medium text-gray-700">
           Amount (with {invoice.cardPaymentSurcharge}% surcharge)

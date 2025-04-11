@@ -85,6 +85,7 @@ export const paymentApi = {
   processCardPayment: async (data: {
     amount: number;
     currency: string;
+    invoiceId: string;
     card: {
       cardNumber: string;
       cardHolderName: string;
@@ -100,12 +101,13 @@ export const paymentApi = {
   processAchPayment: async (data: {
     amount: number;
     currency: string;
+    invoiceId: string;
     bankAccount: {
       routingNumber: string;
       accountNumber: string;
-      accountType: string;
-      accountHolderName: string;
+      nameOnAccount: string;
     };
+    deviceGuid: string;
   }) => {
     const response = await api.post('/payment/ach', data);
     return response.data;
