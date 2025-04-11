@@ -26,7 +26,7 @@ interface InvoiceResponse {
 }
 
 export default function PublicPayment() {
-  const { invoiceId } = useParams();
+  const invoiceId  = "67f86ca9cf1991c23d081ce2";
   const [invoice, setInvoice] = useState<Invoice | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
