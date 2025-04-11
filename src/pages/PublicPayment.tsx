@@ -33,31 +33,31 @@ export default function PublicPayment() {
   const [activeTab, setActiveTab] = useState<'card' | 'bank'>('card');
 
   useEffect(() => {
-    const handleLoad = () => {
-      const fullURL = window.location.href;
-      const invoiceId = fullURL.split('/').pop();
-      const fetchInvoice = async () => {
-        try {
-          const response = await axios.get<InvoiceResponse>(
-            `https://api-vendara.usapayments.com/api/v1/ghl/public/invoice/${invoiceId}`
-          );
-          setInvoice(response.data.data.invoice);
-        } catch (err: any) {
-          const message = err.response?.data?.message || 'Failed to fetch invoice details';
-          setError(message);
-          toast.error(message);
-        } finally {
-          setLoading(false);
-        }
-      };
-
-      if (invoiceId) {
-        fetchInvoice();
+    const fetchInvoice = async (invoiceId: string) => {
+      try {
+        const response = await axios.get<InvoiceResponse>(
+          `https://api-vendara.usapayments.com/api/v1/ghl/public/invoice/${invoiceId}`
+        );
+        setInvoice(response.data.data.invoice);
+      } catch (err: any) {
+        const message = err.response?.data?.message || 'Failed to fetch invoice details';
+        setError(message);
+        toast.error(message);
+      } finally {
+        setLoading(false);
       }
     };
 
-    window.addEventListener('load', handleLoad);
-    return () => window.removeEventListener('load', handleLoad);
+    // Extract invoice ID from the URL path
+    const pathParts = window.location.pathname.split('/');
+    const invoiceId = pathParts[pathParts.length - 1];
+    
+    if (invoiceId) {
+      fetchInvoice(invoiceId);
+    } else {
+      setError('Invoice ID not found in URL');
+      setLoading(false);
+    }
   }, []);
 
   if (loading) {
