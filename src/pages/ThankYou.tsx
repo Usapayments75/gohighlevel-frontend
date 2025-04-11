@@ -63,9 +63,35 @@ export default function ThankYou() {
                   <Download className="h-4 w-4 mr-2" />
                   Download Receipt
                 </button>
+                <button
+                  onClick={() => {
+                    // Handle share functionality
+                    if (navigator.share) {
+                      navigator.share({
+                        title: 'Payment Receipt',
+                        text: `Payment of $${paymentDetails.amount.toFixed(2)} completed successfully.`,
+                        url: window.location.href,
+                      });
+                    }
+                  }}
+                  className="inline-flex items-center justify-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                >
+                  <Share2 className="h-4 w-4 mr-2" />
+                  Share Receipt
+                </button>
               </div>
             </div>
-          )} 
+          )}
+
+          <div className="mt-6 text-center">
+            <Link
+              to="/"
+              className="inline-flex items-center text-sm text-indigo-600 hover:text-indigo-500"
+            >
+              <ArrowLeft className="h-4 w-4 mr-2" />
+              Return to Dashboard
+            </Link>
+          </div>
         </div>
       </div>
     </div>
