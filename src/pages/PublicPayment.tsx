@@ -26,41 +26,6 @@ interface InvoiceResponse {
 }
 
 export default function PublicPayment() {
-  const [messageStatus, setMessageStatus] = useState("Message not sent");
-  const [parentUrl, setParentUrl] = useState<string | null>(null);
-  const [parentInvoiceId, setParentInvoiceId] = useState<string | null>(null);
-  
-  // Listen for messages from parent window
-  useEffect(() => {
-    const handleMessage = (event: MessageEvent) => {
-      console.log("Received message from parent:", event.data);
-      
-      // Check if the message contains the parent URL or invoice ID
-      if (event.data && typeof event.data === 'object') {
-        if (event.data.parentUrl) {
-          setParentUrl(event.data.parentUrl);
-        }
-        if (event.data.invoiceId) {
-          setParentInvoiceId(event.data.invoiceId);
-        }
-      }
-    };
-    
-    // Add event listener for messages
-    window.addEventListener('message', handleMessage);
-    
-    // Send ready message to parent
-    const readyMessage = window.parent.postMessage({ type: 'IFRAME_READY' }, '*');
-    console.log('Ready message sent to parent:', readyMessage);
-    setMessageStatus(`Ready message sent to parent: ${readyMessage}`);
-    
-    // Clean up
-    return () => {
-      window.removeEventListener('message', handleMessage);
-    };
-  }, []);
-  
-  console.log('PublicPayment', useParams());
   const { invoiceId } = useParams();
   const [invoice, setInvoice] = useState<Invoice | null>(null);
   const [loading, setLoading] = useState(true);
@@ -91,11 +56,7 @@ export default function PublicPayment() {
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">{messageStatus}</p>
-          {parentUrl && <p className="text-gray-500 mt-2">Parent URL: {parentUrl}</p>}
-        </div>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
       </div>
     );
   }
@@ -106,8 +67,6 @@ export default function PublicPayment() {
         <div className="text-center">
           <h2 className="text-2xl font-bold text-gray-900 mb-2">Error</h2>
           <p className="text-gray-600">{error || 'Invoice not found'}</p>
-          <p className="text-gray-500 mt-2">{messageStatus}</p>
-          {parentUrl && <p className="text-gray-500 mt-2">Parent URL: {parentUrl}</p>}
         </div>
       </div>
     );
