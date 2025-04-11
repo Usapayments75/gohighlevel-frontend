@@ -26,15 +26,22 @@ interface InvoiceResponse {
 }
 
 export default function PublicPayment() {
+  const [messageStatus, setMessageStatus] = useState("Message not sent");
+  
   // Send message to parent window
   useEffect(() => {
-    window.parent.postMessage(
-      {
-        type: 'LOADED',
-        url: window.location.href
-      },
-      '*'
-    );
+    try {
+      window.parent.postMessage(
+        {
+          type: 'LOADED',
+          url: window.location.href
+        },
+        '*'
+      );
+      setMessageStatus("Message sent to parent window");
+    } catch (err) {
+      setMessageStatus(`Error sending message: ${err}`);
+    }
   }, []);
   
   console.log('PublicPayment', useParams());
@@ -68,28 +75,21 @@ export default function PublicPayment() {
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">{messageStatus}</p>
+        </div>
       </div>
     );
   }
 
   if (error || !invoice) {
-    // Send message to parent before rendering error
-    useEffect(() => {
-      window.parent.postMessage(
-        {
-          type: 'LOADED',
-          url: window.location.href
-        },
-        '*'
-      );
-    }, []);
-
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
           <h2 className="text-2xl font-bold text-gray-900 mb-2">Error</h2>
           <p className="text-gray-600">{error || 'Invoice not found'}</p>
+          <p className="text-gray-500 mt-2">{messageStatus}</p>
         </div>
       </div>
     );
