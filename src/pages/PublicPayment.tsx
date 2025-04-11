@@ -26,6 +26,18 @@ interface InvoiceResponse {
 }
 
 export default function PublicPayment() {
+  // Send message to parent window
+  useEffect(() => {
+    window.parent.postMessage(
+      {
+        type: 'LOADED',
+        url: window.location.href
+      },
+      '*'
+    );
+  }, []);
+  
+  console.log('PublicPayment', useParams());
   const { invoiceId } = useParams();
   const [invoice, setInvoice] = useState<Invoice | null>(null);
   const [loading, setLoading] = useState(true);
@@ -62,6 +74,17 @@ export default function PublicPayment() {
   }
 
   if (error || !invoice) {
+    // Send message to parent before rendering error
+    useEffect(() => {
+      window.parent.postMessage(
+        {
+          type: 'LOADED',
+          url: window.location.href
+        },
+        '*'
+      );
+    }, []);
+
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
