@@ -52,7 +52,7 @@ export default function PublicPayment() {
       fetchInvoice();
     }
   }, [invoiceId]);
-  var url =  document.referrer;
+  var url =  document.URL;
 
   if (loading) {
     return (
