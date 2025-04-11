@@ -34,29 +34,52 @@ export default function PublicPayment() {
 
   useEffect(() => {
     const handleLoad = () => {
-      // Extract invoice ID from the URL path
-      const pathParts = window.location.pathname.split('/');
-      const invoiceId = pathParts[pathParts.length - 1];
-      
-      const fetchInvoice = async (id: string) => {
-        try {
-          const response = await axios.get<InvoiceResponse>(
-            `https://api-vendara.usapayments.com/api/v1/ghl/public/invoice/${id}`
-          );
-          setInvoice(response.data.data.invoice);
-        } catch (err: any) {
-          const message = err.response?.data?.message || 'Failed to fetch invoice details';
-          setError(message);
-          toast.error(message);
-        } finally {
+      try {
+        // Try to get the parent URL if in an iframe
+        let invoiceId = '';
+        
+        // Check if we're in an iframe and can access parent
+        if (window.parent !== window && window.parent.location.href) {
+          const parentUrl = window.parent.location.href;
+          console.log("Parent URL:", parentUrl);
+          
+          // Extract invoice ID from parent URL
+          const urlParts = parentUrl.split('/invoice/');
+          if (urlParts.length > 1) {
+            invoiceId = urlParts[1];
+          }
+        } else {
+          // Fallback to current window URL if not in iframe or can't access parent
+          const pathParts = window.location.pathname.split('/');
+          invoiceId = pathParts[pathParts.length - 1];
+        }
+        
+        console.log("Extracted Invoice ID:", invoiceId);
+        
+        const fetchInvoice = async (id: string) => {
+          try {
+            const response = await axios.get<InvoiceResponse>(
+              `https://api-vendara.usapayments.com/api/v1/ghl/public/invoice/${id}`
+            );
+            setInvoice(response.data.data.invoice);
+          } catch (err: any) {
+            const message = err.response?.data?.message || 'Failed to fetch invoice details';
+            setError(message);
+            toast.error(message);
+          } finally {
+            setLoading(false);
+          }
+        };
+
+        if (invoiceId) {
+          fetchInvoice(invoiceId);
+        } else {
+          setError('Invoice ID not found in parent URL. Please check the link.');
           setLoading(false);
         }
-      };
-
-      if (invoiceId) {
-        fetchInvoice(invoiceId);
-      } else {
-        setError('Invoice ID not found in URL'+window.location.pathname);
+      } catch (err) {
+        // This will catch security errors if we can't access parent due to cross-origin restrictions
+        setError('Cannot access invoice information due to security restrictions. Please ensure this page is properly embedded.');
         setLoading(false);
       }
     };
