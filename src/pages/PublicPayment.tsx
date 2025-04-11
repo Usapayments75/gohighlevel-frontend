@@ -26,7 +26,6 @@ interface InvoiceResponse {
 }
 
 export default function PublicPayment() {
-  const invoiceId  = "67f86ca9cf1991c23d081ce2";
   const [invoice, setInvoice] = useState<Invoice | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -36,7 +35,7 @@ export default function PublicPayment() {
     const fetchInvoice = async () => {
       try {
         const response = await axios.get<InvoiceResponse>(
-          `https://api-vendara.usapayments.com/api/v1/ghl/public/invoice/${invoiceId}`
+          `https://api-vendara.usapayments.com/api/v1/ghl/my/invoice`
         );
         setInvoice(response.data.data.invoice);
       } catch (err: any) {
@@ -48,10 +47,10 @@ export default function PublicPayment() {
       }
     };
 
-    if (invoiceId) {
+    if (!invoice) {
       fetchInvoice();
     }
-  }, [invoiceId]);
+  }, [invoice]);
 
   if (loading) {
     return (
