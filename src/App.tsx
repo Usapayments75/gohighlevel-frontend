@@ -15,6 +15,7 @@ import Documentation from './pages/Documentation';
 import DashboardLayout from './components/DashboardLayout';
 import OAuthCallback from './pages/OAuthCallback';
 import PublicPayment from './pages/PublicPayment';
+import ThankYou from './pages/ThankYou';
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/documentation" element={<Documentation />} />
           <Route path="/oauth/callback" element={<OAuthCallback />} />
+          <Route path="/thank-you" element={<ThankYou />} />
           
           {/* Public Payment Route */}
           <Route path="/pay" element={<PublicPayment />} />

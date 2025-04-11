@@ -1,44 +1,17 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
-import { CreditCard, Calendar, User, Lock, X, CheckCircle, Receipt, DollarSign, Building2, FileText } from 'lucide-react';
-import { paymentApi } from '../services/api';
+import { CreditCard, Calendar, User, Lock } from 'lucide-react';
+import { Invoice } from '../../types/payment';
+import { paymentApi } from '../../services/api';
 
-interface PaymentResponse {
-  guid: string;
-  status: string;
-  batchStatus: string;
-  timeStamp: string;
-  amount: number;
-  currency: string;
-  cardDataSource: string;
-  processorStatusCode: string;
-  processorResponseMessage: string;
-  authCode: string;
-  refNumber: string;
-  customerReceipt: string;
-  card: {
-    first6: string;
-    last4: string;
-    cardType: string;
-    cardHolderName: string;
-  };
-  addressVerificationResult: string;
-  meta?: {
-    originalAmount: number;
-    finalAmount: number;
-    surchargeApplied: boolean;
-    surchargeRate: number;
-  };
+interface CardPaymentFormProps {
+  invoice: Invoice;
+  navigate: (path: string, options?: any) => void;
 }
 
-export default function CardPayment() {
-  const navigate = useNavigate();
+export default function CardPaymentForm({ invoice, navigate }: CardPaymentFormProps) {
   const [isProcessing, setIsProcessing] = useState(false);
-  const [showModal, setShowModal] = useState(false);
-  const [paymentResponse, setPaymentResponse] = useState<PaymentResponse | null>(null);
   const [formData, setFormData] = useState({
-    amount: '',
     cardNumber: '',
     cardHolderName: '',
     expirationDate: '',
@@ -51,8 +24,8 @@ export default function CardPayment() {
 
     try {
       const response = await paymentApi.processCardPayment({
-        amount: parseFloat(formData.amount),
-        currency: 'USD',
+        amount: parseFloat(invoice.totalWithSurcharge),
+        currency: invoice.currency,
         card: {
           cardNumber: formData.cardNumber.replace(/\s/g, ''),
           cardHolderName: formData.cardHolderName,
@@ -62,13 +35,9 @@ export default function CardPayment() {
         deviceGuid: 'b28c858c-cdb5-44be-949d-3edbb38069af', // This should come from settings
       });
 
-      setPaymentResponse(response.data);
-      // Instead of showing modal, redirect to thank you page
       navigate('/thank-you', { state: { paymentDetails: response.data } });
       toast.success('Payment processed successfully!');
-      // Reset form
       setFormData({
-        amount: '',
         cardNumber: '',
         cardHolderName: '',
         expirationDate: '',
@@ -112,19 +81,15 @@ export default function CardPayment() {
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <div>
-        <label htmlFor="amount" className="block text-sm font-medium text-gray-700">
-          Amount ($)
+        <label className="block text-sm font-medium text-gray-700">
+          Amount (with {invoice.cardPaymentSurcharge}% surcharge)
         </label>
         <div className="mt-1">
           <input
-            type="number"
-            step="0.01"
-            min="0.01"
-            id="amount"
-            required
-            className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-            value={formData.amount}
-            onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
+            type="text"
+            value={`$${invoice.totalWithSurcharge}`}
+            disabled
+            className="block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
           />
         </div>
       </div>

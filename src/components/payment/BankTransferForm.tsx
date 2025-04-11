@@ -1,50 +1,17 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
-import { Building as BankIcon, Hash, User, X, CheckCircle, Receipt, DollarSign, FileText, Calendar } from 'lucide-react';
-import { paymentApi } from '../services/api';
+import { Building as BankIcon, Hash, User } from 'lucide-react';
+import { Invoice } from '../../types/payment';
+import { paymentApi } from '../../services/api';
 
-interface PaymentResponse {
-  guid: string;
-  status: string;
-  timeStamp: string;
-  deviceGuid: string;
-  deviceName: string;
-  merchantName: string;
-  amount: number;
-  grossAmount: number;
-  effectiveAmount: number;
-  refNumber: string;
-  isBusinessPayment: boolean;
-  operationType: string;
-  settlementType: string;
-  isSettled: boolean;
-  processorStatusCode: string;
-  processorResponseMessage: string;
-  wasProcessed: boolean;
-  customerReceipt: string;
-  approvalCode: string;
-  bankAccount: {
-    guid: string;
-    routingNumber: string;
-    accountNumber: string;
-    accountNumberLastFour: string;
-    nameOnAccount: string;
-  };
-  clearingProcessorUpdate: Array<{
-    timestamp: string;
-    transactionStatusUpdate: string;
-    settlementStatusUpdate: string;
-    reportingNotesUpdate: string;
-    statusMessageUpdate: string;
-  }>;
+interface BankTransferFormProps {
+  invoice: Invoice;
+  navigate: (path: string, options?: any) => void;
 }
 
-export default function BankTransfer() {
-  const navigate = useNavigate();
+export default function BankTransferForm({ invoice, navigate }: BankTransferFormProps) {
   const [isProcessing, setIsProcessing] = useState(false);
   const [formData, setFormData] = useState({
-    amount: '',
     routingNumber: '',
     accountNumber: '',
     accountType: 'checking',
@@ -57,8 +24,8 @@ export default function BankTransfer() {
 
     try {
       const response = await paymentApi.processAchPayment({
-        amount: parseFloat(formData.amount),
-        currency: 'USD',
+        amount: parseFloat(invoice.amountDue),
+        currency: invoice.currency,
         bankAccount: {
           routingNumber: formData.routingNumber,
           accountNumber: formData.accountNumber,
@@ -67,12 +34,9 @@ export default function BankTransfer() {
         deviceGuid: '86026025-5dcb-4875-a666-17b4b76a7f87', // This should come from settings
       });
 
-      // Redirect to thank you page with payment details
       navigate('/thank-you', { state: { paymentDetails: response.data } });
       toast.success('Bank transfer initiated successfully!');
-      // Reset form
       setFormData({
-        amount: '',
         routingNumber: '',
         accountNumber: '',
         accountType: 'checking',
@@ -88,19 +52,15 @@ export default function BankTransfer() {
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <div>
-        <label htmlFor="amount" className="block text-sm font-medium text-gray-700">
-          Amount ($)
+        <label className="block text-sm font-medium text-gray-700">
+          Amount
         </label>
         <div className="mt-1">
           <input
-            type="number"
-            step="0.01"
-            min="0.01"
-            id="amount"
-            required
-            className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-            value={formData.amount}
-            onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
+            type="text"
+            value={`$${invoice.amountDue}`}
+            disabled
+            className="block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
           />
         </div>
       </div>
