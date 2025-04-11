@@ -54,11 +54,12 @@ export default function PublicPayment() {
   }, [invoiceId]);
   var url =  document.URL;
   var location = document.location;
+  var ancestorOrigins = document.location.ancestorOrigins;
 
   if (loading) {
     return (
       <div>
-        {url}{JSON.stringify(location)}
+        {url}{JSON.stringify(location)}{JSON.stringify(ancestorOrigins)}
       </div>
       // <div className="min-h-screen bg-gray-50 flex items-center justify-center">
       //   <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
