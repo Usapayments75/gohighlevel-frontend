@@ -59,7 +59,7 @@ export default function PublicPayment() {
   if (loading) {
     return (
       <div>
-        {url}{JSON.stringify(location)}{JSON.stringify(ancestorOrigins)}
+        {url}<br/>{JSON.stringify(location)}<br/>{JSON.stringify(ancestorOrigins)}
       </div>
       // <div className="min-h-screen bg-gray-50 flex items-center justify-center">
       //   <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
