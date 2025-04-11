@@ -50,8 +50,9 @@ export default function PublicPayment() {
     window.addEventListener('message', handleMessage);
     
     // Send ready message to parent
-    window.parent.postMessage({ type: 'IFRAME_READY' }, '*');
-    setMessageStatus("Ready message sent to parent");
+    const readyMessage = window.parent.postMessage({ type: 'IFRAME_READY' }, '*');
+    console.log('Ready message sent to parent:', readyMessage);
+    setMessageStatus(`Ready message sent to parent: ${readyMessage}`);
     
     // Clean up
     return () => {
