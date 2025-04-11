@@ -55,11 +55,13 @@ export default function PublicPayment() {
   var url =  document.URL;
   var location = document.location;
   var ancestorOrigins = document.location.ancestorOrigins;
-
+  const isIframe = window.self !== window.top;
+  const urlNew = isIframe ? document.referrer : document.location.href;
+  
   if (loading) {
     return (
       <div>
-        {url}<br/>{JSON.stringify(location)}<br/>{JSON.stringify(ancestorOrigins)}
+        {url}<br/>{JSON.stringify(location)}<br/>{JSON.stringify(ancestorOrigins)}<br/>{urlNew}<br/>{isIframe}
       </div>
       // <div className="min-h-screen bg-gray-50 flex items-center justify-center">
       //   <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
