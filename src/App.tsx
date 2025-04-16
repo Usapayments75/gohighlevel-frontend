@@ -8,7 +8,6 @@ import ResetPassword from './pages/ResetPassword';
 import Settings from './pages/Settings';
 import Status from './pages/Status';
 import Payment from './pages/Payment';
-import CardPayment from './pages/CardPayment';
 import BankTransfer from './pages/BankTransfer';
 import Invoice from './pages/Invoice';
 import Documentation from './pages/Documentation';
@@ -38,24 +37,17 @@ function App() {
           {/* Protected Routes */}
           <Route path="/" element={<DashboardLayout />}>
             <Route path="payment" element={<Payment />}>
-              {/* Private route for card payment */}
-              <Route path="card" element={
-                <PrivateRoute>
-                  <CardPayment />
-                </PrivateRoute>
-              } />
               <Route path="bank" element={<BankTransfer />} />
-              <Route index element={<Navigate to="card" replace />} />
+              <Route index element={<Navigate to="bank" replace />} />
             </Route>
             <Route path="status" element={<Status />} />
             <Route path="invoice" element={<Invoice />} />
-            {/* Private route for settings */}
             <Route path="settings" element={
               <PrivateRoute>
                 <Settings />
               </PrivateRoute>
             } />
-            <Route index element={<Navigate to="/payment" replace />} />
+            <Route index element={<Navigate to="/settings" replace />} />
           </Route>
         </Routes>
       </div>

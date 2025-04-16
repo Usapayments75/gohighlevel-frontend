@@ -13,7 +13,8 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
   
   if (!isAuthenticated) {
     // Redirect to login page, but save the location they were trying to access
-    return <Navigate to="/login" state={{ from: location }} replace />;
+    // After login, they'll be redirected to the settings page
+    return <Navigate to="/login" state={{ from: '/settings' }} replace />;
   }
   
   // If there are children, render them, otherwise render the outlet
