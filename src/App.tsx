@@ -16,6 +16,7 @@ import DashboardLayout from './components/DashboardLayout';
 import OAuthCallback from './pages/OAuthCallback';
 import PublicPayment from './pages/PublicPayment';
 import ThankYou from './pages/ThankYou';
+import PrivateRoute from './components/PrivateRoute';
 
 function App() {
   return (
@@ -37,13 +38,23 @@ function App() {
           {/* Protected Routes */}
           <Route path="/" element={<DashboardLayout />}>
             <Route path="payment" element={<Payment />}>
-              <Route path="card" element={<CardPayment />} />
+              {/* Private route for card payment */}
+              <Route path="card" element={
+                <PrivateRoute>
+                  <CardPayment />
+                </PrivateRoute>
+              } />
               <Route path="bank" element={<BankTransfer />} />
               <Route index element={<Navigate to="card" replace />} />
             </Route>
             <Route path="status" element={<Status />} />
             <Route path="invoice" element={<Invoice />} />
-            <Route path="settings" element={<Settings />} />
+            {/* Private route for settings */}
+            <Route path="settings" element={
+              <PrivateRoute>
+                <Settings />
+              </PrivateRoute>
+            } />
             <Route index element={<Navigate to="/payment" replace />} />
           </Route>
         </Routes>
