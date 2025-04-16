@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import { LogIn } from 'lucide-react';
 import { authApi } from '../services/api';
 
 export default function Login() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -17,7 +18,8 @@ export default function Login() {
       const response = await authApi.login(formData);
       localStorage.setItem('token', response.token);
       toast.success('Login successful!');
-      navigate('/');
+      const from = location.state?.from || '/settings';
+      navigate(from, { replace: true });
     } catch (error: any) {
       toast.error(error.response?.data?.message || 'Login failed');
     }

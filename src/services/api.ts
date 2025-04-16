@@ -124,3 +124,13 @@ export const invoiceApi = {
     return response.data;
   },
 };
+
+export const login = async (credentials) => {
+  // API call logic...
+  
+  // If there's a redirect here, update it to '/settings'
+  // For example:
+  // window.location.href = '/settings';
+  // or
+  // navigate('/settings');
+};

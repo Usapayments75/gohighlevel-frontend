@@ -1,9 +1,15 @@
-import React from 'react';
-import { Outlet, Link, useLocation } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
 import { CreditCard, Ban as Bank } from 'lucide-react';
 
-export default function Payment() {
+const Payment = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+  
+  useEffect(() => {
+    // Check if there's any redirect logic here that might be sending users to /payment/card
+    // If so, update it to redirect to /payment/bank instead
+  }, []);
 
   return (
     <div className="bg-white shadow rounded-lg">
@@ -42,4 +48,6 @@ export default function Payment() {
       </div>
     </div>
   );
-}
+};
+
+export default Payment;
