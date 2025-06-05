@@ -30,7 +30,16 @@ export default function Documentation() {
                 To begin using the portal:
               </p>
               <ol className="list-decimal list-inside space-y-2 text-gray-600">
-                <li>Create an account or sign in</li>
+                <li>
+                  <a 
+                    href="https://payments.usapayments.com/register" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-indigo-600 hover:text-indigo-500 underline"
+                  >
+                    Create an account
+                  </a> or sign in
+                </li>
                 <li>Configure your merchant settings</li>
                 <li>Set up payment methods</li>
                 <li>Start accepting payments</li>
