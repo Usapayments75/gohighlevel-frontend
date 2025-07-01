@@ -74,7 +74,7 @@ export default function OAuthCallback() {
               <Loader2 className="h-16 w-16 text-indigo-600 animate-spin" />
             </div>
             <h2 className="mt-6 text-2xl font-bold text-gray-900">
-              Connecting to Go High Level
+              Connecting to CRM
             </h2>
             <p className="mt-3 text-gray-600">
               Please wait while we complete the integration...
@@ -105,7 +105,7 @@ export default function OAuthCallback() {
               </div>
             )}
             <p className="mt-6 text-sm text-gray-500">
-              You can now close this window and return to Go High Level
+              You can now close this window and return to CRM
             </p>
           </div>
         )}
