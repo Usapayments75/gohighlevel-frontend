@@ -64,7 +64,7 @@ export default function BankTransfer() {
           accountNumber: formData.accountNumber,
           nameOnAccount: formData.accountHolderName,
         },
-        deviceGuid: '86026025-5dcb-4875-a666-17b4b76a7f87', // This should come from settings
+        deviceGuid: '412aeec3-05ae-421e-8163-7939eb5cea37', // This should come from settings
       });
 
       // Redirect to thank you page with payment details

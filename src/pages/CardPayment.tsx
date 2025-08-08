@@ -59,7 +59,7 @@ export default function CardPayment() {
           expirationDate: formData.expirationDate,
           cvv: formData.cvv,
         },
-        deviceGuid: 'b28c858c-cdb5-44be-949d-3edbb38069af', // This should come from settings
+        deviceGuid: '1bb80600-9d00-4698-861d-4c7e21cf6ef4', // This should come from settings
       });
 
       setPaymentResponse(response.data);
